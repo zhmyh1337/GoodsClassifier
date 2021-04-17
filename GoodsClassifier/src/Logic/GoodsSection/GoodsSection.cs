@@ -23,7 +23,7 @@ namespace GoodsClassifier.Logic
 
         public void Rename()
         {
-            Dialog.Dialog dialog = new() { Message = "Input new section name:" };
+            Dialog.Dialog dialog = new() { Message = "Input new section name:", ResponseText = (string)Header };
             if (dialog.ShowDialog() == true)
             {
                 Header = dialog.ResponseText;

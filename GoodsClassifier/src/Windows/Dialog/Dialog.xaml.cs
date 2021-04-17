@@ -46,9 +46,21 @@ namespace GoodsClassifier.Dialog
             set => (DataContext as ViewModel).ResponseText = value;
         }
 
-        private void OkButton_Click(object sender, RoutedEventArgs e)
+        private void OkButton_Click(object sender, RoutedEventArgs e) => DialogResult = true;
+
+        private void TextBox_Loaded(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
+            var textBox = (TextBox)sender;
+            textBox.SelectAll();
+            textBox.Focus();
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                DialogResult = true;
+            }
         }
     }
 }
