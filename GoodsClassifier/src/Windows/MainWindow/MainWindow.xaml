@@ -1,14 +1,26 @@
-﻿<Window x:Class="GoodsClassifier.MainWindow"
+﻿<Window x:Class="GoodsClassifier.MainWindow.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GoodsClassifier"
+        xmlns:local="clr-namespace:GoodsClassifier.MainWindow"
+        xmlns:Specialized="clr-namespace:System.Collections.Specialized;assembly=System.Collections.Specialized"
         mc:Ignorable="d"
         Title="Goods classifier" Height="450" Width="800">
     <Grid>
-        <TreeView>
-            <TreeViewItem Header="sdds">sdsdssg</TreeViewItem>
+        <TreeView x:Name="Tree">
+            <local:GoodsSection x:Name="TreeRoot" Header="Root">
+                <local:GoodsSection Header="1"/>
+                <local:GoodsSection Header="2">
+                    <local:GoodsSection Header="3"/>
+                    <local:GoodsSection Header="4">
+                        <local:GoodsSection Header="7"/>
+                    </local:GoodsSection>
+                </local:GoodsSection>
+                <local:GoodsSection Header="5">
+                    <local:GoodsSection Header="6"/>
+                </local:GoodsSection>
+            </local:GoodsSection>
         </TreeView>
     </Grid>
 </Window>
