@@ -1,0 +1,14 @@
+﻿<Window x:Class="GoodsClassifier.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GoodsClassifier"
+        mc:Ignorable="d"
+        Title="Goods classifier" Height="450" Width="800">
+    <Grid>
+        <TreeView>
+            <TreeViewItem Header="sdds">sdsdssg</TreeViewItem>
+        </TreeView>
+    </Grid>
+</Window>
