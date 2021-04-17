@@ -4,23 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GoodsClassifier.MainWindow"
+        xmlns:logic="clr-namespace:GoodsClassifier.Logic"
         xmlns:Specialized="clr-namespace:System.Collections.Specialized;assembly=System.Collections.Specialized"
         mc:Ignorable="d"
         Title="Goods classifier" Height="450" Width="800">
     <Grid>
         <TreeView x:Name="Tree">
-            <local:GoodsSection x:Name="TreeRoot" Header="Root">
-                <local:GoodsSection Header="1"/>
-                <local:GoodsSection Header="2">
-                    <local:GoodsSection Header="3"/>
-                    <local:GoodsSection Header="4">
-                        <local:GoodsSection Header="7"/>
-                    </local:GoodsSection>
-                </local:GoodsSection>
-                <local:GoodsSection Header="5">
-                    <local:GoodsSection Header="6"/>
-                </local:GoodsSection>
-            </local:GoodsSection>
+            <logic:GoodsSection x:Name="TreeRoot" Header="Root">
+                <logic:GoodsSection Header="1"/>
+                <logic:GoodsSection Header="2">
+                    <logic:GoodsSection Header="3"/>
+                    <logic:GoodsSection Header="4">
+                        <logic:GoodsSection Header="7"/>
+                    </logic:GoodsSection>
+                </logic:GoodsSection>
+                <logic:GoodsSection Header="5">
+                    <logic:GoodsSection Header="6"/>
+                </logic:GoodsSection>
+            </logic:GoodsSection>
         </TreeView>
     </Grid>
 </Window>
