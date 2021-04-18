@@ -57,7 +57,11 @@ namespace GoodsClassifier.Logic
 
         public void AddGood()
         {
-            throw new NotImplementedException();
+            Good newGood = new(this);
+            if (newGood.CreateModifyView(Good.CreateModifyViewMode.Create))
+            {
+                Goods.Add(newGood);
+            }
         }
     }
 }

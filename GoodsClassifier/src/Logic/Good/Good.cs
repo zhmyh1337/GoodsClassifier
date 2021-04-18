@@ -39,9 +39,9 @@ namespace GoodsClassifier.Logic
 
         public bool IsValid() => !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(VendorCode);
 
-        public void CreateModifyView(CreateModifyViewMode mode)
+        public bool CreateModifyView(CreateModifyViewMode mode)
         {
-            throw new NotImplementedException();
+            return new GoodDialog.GoodDialog() { Good = this, Mode = mode }.ShowDialog() == true;
         }
 
         public void Delete() => _parentSection.Goods.Remove(this);

@@ -17,7 +17,7 @@ namespace GoodsClassifier.Dialog
     /// <summary>
     /// Interaction logic for Dialog.xaml
     /// </summary>
-    public partial class Dialog : Window
+    partial class Dialog : Window
     {
         public Dialog()
         {
