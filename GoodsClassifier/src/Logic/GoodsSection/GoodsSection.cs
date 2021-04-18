@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,13 +11,13 @@ namespace GoodsClassifier.Logic
 {
     class GoodsSection : TreeViewItem
     {
-        public List<Good> Goods { get; } = new();
+        public ObservableCollection<Good> Goods { get; } = new();
 
         public GoodsSection()
         {
             for (int i = 0; i < 5; i++)
             {
-                Goods.Add(new() { Name = "name", VendorCode = "vendor-1" } );
+                Goods.Add(new(this) { Name = "name", VendorCode = "vendor-1" } );
             }
         }
 

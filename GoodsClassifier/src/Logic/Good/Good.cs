@@ -12,6 +12,15 @@ namespace GoodsClassifier.Logic
 {
     class Good
     {
+        public enum CreateModifyViewMode
+        {
+            Create,
+            Modify,
+            View
+        }
+
+        public Good(GoodsSection parentSection) => _parentSection = parentSection;
+
         [DataGridColumnAutogenerating(Name = "Name")]
         public string Name { get; set; }
 
@@ -26,6 +35,15 @@ namespace GoodsClassifier.Logic
 
         public string Description { get; set; }
 
+        private readonly GoodsSection _parentSection;
+
         public bool IsValid() => !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(VendorCode);
+
+        public void CreateModifyView(CreateModifyViewMode mode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete() => _parentSection.Goods.Remove(this);
     }
 }

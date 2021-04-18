@@ -12,28 +12,25 @@ namespace GoodsClassifier.Logic
     {
         public GoodsSectionContextMenu(GoodsSection section, bool isRootItem)
         {
-            MenuItem newSection = new() { Header = "New section", Tag = section };
-            newSection.Click += (sender, e) => RoutedEventHandlerWrapperForGoodsSection(sender, (section) => section.AddSection());
+            MenuItem newSection = new() { Header = "New section" };
+            newSection.Click += (_, _) => section.AddSection();
 
-            MenuItem renameSection = new() { Header = "Rename section", Tag = section, IsEnabled = !isRootItem };
-            renameSection.Click += (sender, e) => RoutedEventHandlerWrapperForGoodsSection(sender, (section) => section.Rename());
+            MenuItem renameSection = new() { Header = "Rename section", IsEnabled = !isRootItem };
+            renameSection.Click += (_, _) => section.Rename();
 
-            MenuItem deleteSection = new() { Header = "Delete section", Tag = section, IsEnabled = !isRootItem };
-            deleteSection.Click += (sender, e) => RoutedEventHandlerWrapperForGoodsSection(sender, (section) => section.Delete());
+            MenuItem deleteSection = new() { Header = "Delete section", IsEnabled = !isRootItem };
+            deleteSection.Click += (_, _) => section.Delete();
 
-            MenuItem newGood = new() { Header = "New good", Tag = section };
-            newGood.Click += (sender, e) => RoutedEventHandlerWrapperForGoodsSection(sender, (section) => section.AddGood());
+            MenuItem newGood = new() { Header = "New good" };
+            newGood.Click += (_, _) => section.AddGood();
 
-            MenuItem expandAll = new() { Header = "Expand all", Tag = section };
-            expandAll.Click += (sender, e) => RoutedEventHandlerWrapperForGoodsSection(sender, (section) => section.ExpandSubtree());
+            MenuItem expandAll = new() { Header = "Expand all" };
+            expandAll.Click += (_, _) => section.ExpandSubtree();
 
             Control[] contextMenuItemsCollection = { newSection, renameSection, deleteSection, new Separator(), newGood, new Separator(), expandAll };
             ItemsSource = contextMenuItemsCollection;
         }
 
         public void Show() => IsOpen = true;
-
-        private static void RoutedEventHandlerWrapperForGoodsSection(object sender, Action<GoodsSection> methodToInvoke) =>
-            methodToInvoke.Invoke((GoodsSection)(sender as MenuItem).Tag);
     }
 }

@@ -2,6 +2,7 @@
 using GoodsClassifier.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -74,9 +75,17 @@ namespace GoodsClassifier.MainWindow
 
         private void DataGrid_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
+            // Click on a row.
             if (VisualUpwardSearch<DataGridRow>(e.OriginalSource as DependencyObject)?.DataContext is Good good)
             {
-
+                new GoodContextMenu(good).Show();
+            }
+            // Click on empty space.
+            else if (Tree.SelectedItem is GoodsSection section)
+            {
+                MenuItem newGood = new() { Header = "New good" };
+                newGood.Click += (_, _) => section.AddGood();
+                _ = new ContextMenu() { ItemsSource = new[] { newGood }, IsOpen = true };
             }
         }
     }
