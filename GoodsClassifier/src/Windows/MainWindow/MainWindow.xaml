@@ -9,7 +9,13 @@
         mc:Ignorable="d"
         Title="Goods classifier" Height="450" Width="800">
     <Grid>
-        <TreeView x:Name="Tree">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="100"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*" MinWidth="100"/>
+        </Grid.ColumnDefinitions>
+
+        <TreeView x:Name="Tree" PreviewMouseRightButtonUp="Tree_MouseRightButtonUp">
             <logic:GoodsSection x:Name="TreeRoot" Header="Root">
                 <logic:GoodsSection Header="1"/>
                 <logic:GoodsSection Header="2">
@@ -23,5 +29,7 @@
                 </logic:GoodsSection>
             </logic:GoodsSection>
         </TreeView>
+        <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center"/>
+        <DataGrid Grid.Column="2" ItemsSource="{Binding ElementName=Tree, Path=SelectedItem.(logic:GoodsSection.Goods)}"/>
     </Grid>
 </Window>

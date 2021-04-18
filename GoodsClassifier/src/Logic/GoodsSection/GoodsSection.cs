@@ -10,7 +10,15 @@ namespace GoodsClassifier.Logic
 {
     class GoodsSection : TreeViewItem
     {
-        public List<Good> Goods = new();
+        public List<Good> Goods { get; } = new();
+
+        public GoodsSection()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Goods.Add(new() { A = "sdsdg", B = 1337, C = 228.1488f });
+            }
+        }
 
         public bool ContainsGoods() => Goods.Any();
 
@@ -18,12 +26,17 @@ namespace GoodsClassifier.Logic
 
         public void AddSection()
         {
-            
+            Dialog.Dialog dialog = new() { Message = "Enter a name for the new section:" };
+            if (dialog.ShowDialog() == true)
+            {
+                Items.Add(new GoodsSection() { Header = dialog.ResponseText });
+                IsExpanded = true;
+            }
         }
 
         public void Rename()
         {
-            Dialog.Dialog dialog = new() { Message = "Input new section name:", ResponseText = (string)Header };
+            Dialog.Dialog dialog = new() { Message = "Enter a new section name:", ResponseText = (string)Header };
             if (dialog.ShowDialog() == true)
             {
                 Header = dialog.ResponseText;

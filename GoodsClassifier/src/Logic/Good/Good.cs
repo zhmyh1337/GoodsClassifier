@@ -8,6 +8,8 @@ namespace GoodsClassifier.Logic
 {
     class Good
     {
-
+        public string A { get; set; }
+        public int B { get; set; }
+        public float C { get; set; }
     }
 }

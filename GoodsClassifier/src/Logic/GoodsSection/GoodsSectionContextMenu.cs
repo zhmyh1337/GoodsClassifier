@@ -24,9 +24,13 @@ namespace GoodsClassifier.Logic
             MenuItem newGood = new() { Header = "New good", Tag = section };
             newGood.Click += (sender, e) => RoutedEventHandlerWrapperForGoodsSection(sender, (section) => section.AddGood());
 
-            Control[] contextMenuItemsCollection = { newSection, renameSection, deleteSection, new Separator(), newGood };
+            MenuItem expandAll = new() { Header = "Expand all", Tag = section };
+            expandAll.Click += (sender, e) => RoutedEventHandlerWrapperForGoodsSection(sender, (section) => section.ExpandSubtree());
+
+            Control[] contextMenuItemsCollection = { newSection, renameSection, deleteSection, new Separator(), newGood, new Separator(), expandAll };
             ItemsSource = contextMenuItemsCollection;
         }
+
         public void Show() => IsOpen = true;
 
         private static void RoutedEventHandlerWrapperForGoodsSection(object sender, Action<GoodsSection> methodToInvoke) =>

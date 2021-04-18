@@ -24,8 +24,6 @@ namespace GoodsClassifier.MainWindow
         public MainWindow()
         {
             InitializeComponent();
-
-            Tree.PreviewMouseRightButtonUp += Tree_MouseRightButtonUp;
         }
 
         private void Tree_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
