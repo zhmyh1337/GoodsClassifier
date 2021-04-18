@@ -10,7 +10,7 @@
     <!--DataContext="{Binding RelativeSource={RelativeSource Self}}"-->
     
     <Window.DataContext>
-        <local:ViewModel/>
+        <local:ViewModel x:Name="ViewModel"/>
     </Window.DataContext>
     
     <Grid>

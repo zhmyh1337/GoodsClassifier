@@ -65,10 +65,6 @@ namespace GoodsClassifier.MainWindow
             if (columnAutogeneratingAttribute != null)
             {
                 e.Column.Header = columnAutogeneratingAttribute.Name;
-                var textColumn = e.Column as DataGridTextColumn;
-                //(textColumn.Binding as Binding).ValidatesOnExceptions = true;
-                //(textColumn.Binding as Binding).ValidatesOnDataErrors = true;
-                textColumn.EditingElementStyle = (Style)(sender as DataGrid).FindResource("errorStyle");
             }
             else
             {
@@ -82,16 +78,6 @@ namespace GoodsClassifier.MainWindow
             {
 
             }
-        }
-
-        private void DataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        {
-            //e.Cancel = true;
-            //if (!(e.Row.DataContext as Good).IsValid())
-            //{
-            //    e.Cancel = true;
-            //    e.EditAction = DataGridEditAction.Cancel;
-            //}
         }
     }
 }

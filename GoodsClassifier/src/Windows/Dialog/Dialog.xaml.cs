@@ -30,20 +30,20 @@ namespace GoodsClassifier.Dialog
         
         public string Caption
         {
-            get => (DataContext as ViewModel).Caption;
-            set => (DataContext as ViewModel).Caption = value;
+            get => ViewModel.Caption;
+            set => ViewModel.Caption = value;
         }
 
         public string Message
         {
-            get => (DataContext as ViewModel).Message;
-            set => (DataContext as ViewModel).Message = value;
+            get => ViewModel.Message;
+            set => ViewModel.Message = value;
         }
 
         public string ResponseText
         {
-            get => (DataContext as ViewModel).ResponseText;
-            set => (DataContext as ViewModel).ResponseText = value;
+            get => ViewModel.ResponseText;
+            set => ViewModel.ResponseText = value;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e) => DialogResult = true;
