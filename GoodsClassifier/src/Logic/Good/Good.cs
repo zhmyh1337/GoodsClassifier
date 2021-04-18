@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GoodsClassifier.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,12 +19,12 @@ namespace GoodsClassifier.Logic
 
         public string Description { get; set; }
 
-        public static Dictionary<string, string> PropertyNameToDisplayNameMapping { get; } = new() {
-            { nameof(Name), "Name" },
-            { nameof(VendorCode), "Vendor code" },
-            { nameof(Price), "Price" },
-            { nameof(RemainingAmount), "Remaining amount" },
-            { nameof(Description), "Description" },
+        public static Dictionary<string, DataGridColumnsAutogeneratingSettings> PropertyNameToDisplayNameMapping { get; } = new() {
+            { nameof(Name), new(true, "Name") },
+            { nameof(VendorCode), new(true, "Vendor code") },
+            { nameof(Price), new(true, "Price") },
+            { nameof(RemainingAmount), new(true, "Remaining amount") },
+            { nameof(Description), new(false) },
         };
     }
 }

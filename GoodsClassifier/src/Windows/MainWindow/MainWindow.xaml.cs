@@ -58,7 +58,9 @@ namespace GoodsClassifier.MainWindow
 
         private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            e.Column.Header = Good.PropertyNameToDisplayNameMapping[e.PropertyName];
+            var settings = Good.PropertyNameToDisplayNameMapping[e.PropertyName];
+            e.Column.Header = settings.DisplayName;
+            e.Cancel = !settings.DoGenerate;
         }
     }
 }
