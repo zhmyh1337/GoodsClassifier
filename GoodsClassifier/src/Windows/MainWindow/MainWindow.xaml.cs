@@ -1,6 +1,8 @@
 ﻿using GoodsClassifier.Logic;
+using GoodsClassifier.Utilities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,19 +30,19 @@ namespace GoodsClassifier.MainWindow
 
         private void Tree_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var section = VisualUpwardSearch(e.OriginalSource as DependencyObject);
+            var section = VisualUpwardSearch<GoodsSection>(e.OriginalSource as DependencyObject);
             if (section == null)
                 return;
 
             new GoodsSectionContextMenu(section, section == TreeRoot).Show();
         }
 
-        private static GoodsSection VisualUpwardSearch(DependencyObject source)
+        private static T VisualUpwardSearch<T>(DependencyObject source) where T : class
         {
-            while (source != null && !(source is GoodsSection))
+            while (source != null && !(source is T))
                 source = VisualTreeHelper.GetParent(source);
 
-            return source as GoodsSection;
+            return source as T;
         }
 
         private void Tree_KeyDown(object sender, KeyEventArgs e)
@@ -58,9 +60,38 @@ namespace GoodsClassifier.MainWindow
 
         private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            var settings = Good.PropertyNameToDisplayNameMapping[e.PropertyName];
-            e.Column.Header = settings.DisplayName;
-            e.Cancel = !settings.DoGenerate;
+            var propertyDescriptor = (PropertyDescriptor)e.PropertyDescriptor;
+            var columnAutogeneratingAttribute = propertyDescriptor.Attributes.OfType<DataGridColumnAutogeneratingAttribute>().FirstOrDefault();
+            if (columnAutogeneratingAttribute != null)
+            {
+                e.Column.Header = columnAutogeneratingAttribute.Name;
+                var textColumn = e.Column as DataGridTextColumn;
+                //(textColumn.Binding as Binding).ValidatesOnExceptions = true;
+                //(textColumn.Binding as Binding).ValidatesOnDataErrors = true;
+                textColumn.EditingElementStyle = (Style)(sender as DataGrid).FindResource("errorStyle");
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void DataGrid_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (VisualUpwardSearch<DataGridRow>(e.OriginalSource as DependencyObject)?.DataContext is Good good)
+            {
+
+            }
+        }
+
+        private void DataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            //e.Cancel = true;
+            //if (!(e.Row.DataContext as Good).IsValid())
+            //{
+            //    e.Cancel = true;
+            //    e.EditAction = DataGridEditAction.Cancel;
+            //}
         }
     }
 }
