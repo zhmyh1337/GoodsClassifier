@@ -15,7 +15,7 @@
             <ColumnDefinition Width="*" MinWidth="100"/>
         </Grid.ColumnDefinitions>
 
-        <TreeView x:Name="Tree" PreviewMouseRightButtonUp="Tree_MouseRightButtonUp">
+        <TreeView x:Name="Tree" PreviewMouseRightButtonUp="Tree_MouseRightButtonUp" KeyDown="Tree_KeyDown">
             <logic:GoodsSection x:Name="TreeRoot" Header="Root">
                 <logic:GoodsSection Header="1"/>
                 <logic:GoodsSection Header="2">
@@ -30,6 +30,7 @@
             </logic:GoodsSection>
         </TreeView>
         <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center"/>
-        <DataGrid Grid.Column="2" ItemsSource="{Binding ElementName=Tree, Path=SelectedItem.(logic:GoodsSection.Goods)}"/>
+        <DataGrid Grid.Column="2" ItemsSource="{Binding ElementName=Tree, Path=SelectedItem.(logic:GoodsSection.Goods)}"
+                  AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"/>
     </Grid>
 </Window>

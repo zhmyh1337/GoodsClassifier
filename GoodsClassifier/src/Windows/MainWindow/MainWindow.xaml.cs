@@ -42,5 +42,23 @@ namespace GoodsClassifier.MainWindow
 
             return source as GoodsSection;
         }
+
+        private void Tree_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.OriginalSource is GoodsSection section)
+            {
+                switch (e.Key)
+                {
+                    case Key.Delete when section != TreeRoot:
+                        section.Delete();
+                        break;
+                }
+            }
+        }
+
+        private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            e.Column.Header = Good.PropertyNameToDisplayNameMapping[e.PropertyName];
+        }
     }
 }
