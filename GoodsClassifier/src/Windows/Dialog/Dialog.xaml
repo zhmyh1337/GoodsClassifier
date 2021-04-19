@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GoodsClassifier.Dialog"
         mc:Ignorable="d"
-        Title="{Binding Caption}" MinWidth="230" Height="auto" Width="auto" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize">
+        Title="{Binding Caption}" MinWidth="270" Height="auto" Width="auto" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize">
 
     <!--DataContext="{Binding RelativeSource={RelativeSource Self}}"-->
     
@@ -15,7 +15,7 @@
     
     <Grid Margin="3">
         <StackPanel>
-            <TextBlock MaxWidth="200" Text="{Binding Message}" TextWrapping="Wrap"/>
+            <TextBlock MaxWidth="200" HorizontalAlignment="Left" Text="{Binding Message}" TextWrapping="Wrap"/>
             <TextBox Margin="0 5" MinWidth="150" Text="{Binding ResponseText}" Loaded="TextBox_Loaded" KeyDown="TextBox_KeyDown"/>
             <Button Width="50" Content="OK" Click="OkButton_Click"/>
         </StackPanel>

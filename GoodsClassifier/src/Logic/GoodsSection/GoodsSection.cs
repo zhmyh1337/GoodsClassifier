@@ -55,7 +55,7 @@ namespace GoodsClassifier.Logic
 
         public void AddSubsection()
         {
-            Dialog.Dialog dialog = new() { Message = "Enter a name for the new section:" };
+            Dialog.Dialog dialog = new() { Caption = "New section", Message = "Enter a name for the new section:" };
             if (dialog.ShowDialog() == true)
             {
                 Subsections.Add(new GoodsSection() { Parent = this, Header = dialog.ResponseText });
@@ -75,7 +75,7 @@ namespace GoodsClassifier.Logic
 
         public void Rename()
         {
-            Dialog.Dialog dialog = new() { Message = "Enter a new section name:", ResponseText = (string)Header };
+            Dialog.Dialog dialog = new() { Caption = "Renaming", Message = "Enter a new section name:", ResponseText = (string)Header };
             if (dialog.ShowDialog() == true)
             {
                 Header = dialog.ResponseText;
