@@ -10,6 +10,10 @@
         <local:ModeToControlIsEnabledConverter x:Key="ModeToControlIsEnabledConverter"/>
         <local:ModeToTitleConverter x:Key="ModeToTitleConverter"/>
         <local:ModeToTextBoxReadOnlyConverter x:Key="ModeToTextBoxReadOnlyConverter"/>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -54,23 +58,27 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Margin="0 0 5 0" Grid.Row="0" Text="Name:"/>
+            <TextBlock Margin="0 0 5 0" Grid.Row="0" Text="Name:" HorizontalAlignment="Right"/>
             <TextBox Margin="0 0 0 0" Grid.Row="0" Grid.Column="1" Text="{Binding Good.Name}"/>
-            <TextBlock Margin="0 5 5 0" Grid.Row="1" Text="Code:"/>
+            <TextBlock Margin="0 5 5 0" Grid.Row="1" Text="Code:" HorizontalAlignment="Right"/>
             <TextBox Margin="0 5 0 0" Grid.Row="1" Grid.Column="1" Text="{Binding Good.Code}"/>
-            <TextBlock Margin="0 5 5 0" Grid.Row="2" Text="Price:"/>
+            <TextBlock Margin="0 5 5 0" Grid.Row="2" Text="Price:" HorizontalAlignment="Right"/>
             <TextBox Margin="0 5 0 0" Grid.Row="2" Grid.Column="1" Text="{Binding Good.Price}"/>
-            <TextBlock Margin="0 5 5 0" Grid.Row="3" Text="Amount:"/>
+            <TextBlock Margin="0 5 5 0" Grid.Row="3" Text="Amount:" HorizontalAlignment="Right"/>
             <TextBox Margin="0 5 0 0" Grid.Row="3" Grid.Column="1" Text="{Binding Good.Amount}"/>
         </Grid>
         
-        <Border Grid.Column="1" Margin="5" Width="200" Height="200" BorderBrush="Black" BorderThickness="2">
+        <Border Grid.Column="1" Margin="5 0 2 2" Width="200" Height="200" BorderBrush="Black" BorderThickness="2">
             <Image PreviewMouseUp="Image_PreviewMouseUp" Source="/src/Windows/GoodDialog/default-image.jpg" Stretch="Uniform"/>
         </Border>
 
         <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
             <Separator DockPanel.Dock="Top"/>
             <TextBlock Margin="0 5 0 0" DockPanel.Dock="Top" Text="Description:" HorizontalAlignment="Center"/>
+            <DockPanel Margin="0 5 0 0" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                <Button Content="OK" Width="100"/>
+                <Button Content="Cancel" Width="100" Margin="100 0 0 0"/>
+            </DockPanel>
             <TextBox Margin="0 5 0 0" DockPanel.Dock="Top" AcceptsReturn="True" TextWrapping="Wrap"/>
         </DockPanel>
     </Grid>
