@@ -42,5 +42,36 @@ namespace GoodsClassifier.GoodDialog
         {
 
         }
+
+        private void ButtonOk_Click(object sender, RoutedEventArgs e)
+        {
+            NameTextBox.Style = (Style)Resources["TextBoxWithErrorBackground"];
+            CodeTextBox.Style = (Style)Resources["TextBoxWithErrorBackground"];
+
+            // Converting to array because System.Linq.Enumerable.Concat2Iterator
+            // is unstable here for some reason.
+            var allErrors = GetAllValidationErrors(this).ToArray();
+            if (allErrors.Any())
+            {
+                var firstError = allErrors.First();
+                MessageBox.Show((string)firstError.ErrorContent, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ((firstError.BindingInError as BindingExpression).Target as UIElement).Focus();
+                return;
+            }
+
+            DialogResult = true;
+        }
+
+        private static IEnumerable<ValidationError> GetAllValidationErrors(DependencyObject obj)
+        {
+            // 2-line DFS :)
+            return Validation.GetErrors(obj).Concat(LogicalTreeHelper.GetChildren(obj)
+                .OfType<DependencyObject>().SelectMany(x => GetAllValidationErrors(x)));
+        }
+
+        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
     }
 }

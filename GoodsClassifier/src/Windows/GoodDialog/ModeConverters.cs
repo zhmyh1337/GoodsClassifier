@@ -66,4 +66,23 @@ namespace GoodsClassifier.GoodDialog
             return DependencyProperty.UnsetValue;
         }
     }
+
+    class ModeToCancelButtonVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value switch
+            {
+                Good.CreateModifyViewMode.Create => "Visible",
+                Good.CreateModifyViewMode.Modify => "Visible",
+                Good.CreateModifyViewMode.View => "Collapsed",
+                _ => throw new ArgumentException(null, nameof(value)),
+            };
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return DependencyProperty.UnsetValue;
+        }
+    }
 }

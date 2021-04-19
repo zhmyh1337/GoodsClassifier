@@ -10,7 +10,7 @@ using System.Windows.Data;
 
 namespace GoodsClassifier.Logic
 {
-    class Good
+    class Good : INotifyPropertyChanged, IDataErrorInfo
     {
         public enum CreateModifyViewMode
         {
@@ -35,13 +35,47 @@ namespace GoodsClassifier.Logic
 
         public string Description { get; set; }
 
-        private readonly GoodsSection _parentSection;
+        public string Error => string.Empty;
 
-        public bool IsValid() => !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Code);
+        public string this[string columnName]
+        {
+            get => columnName switch
+            {
+                nameof(Name) when string.IsNullOrWhiteSpace(Name) => "\"Name\" field cannot be empty.",
+                nameof(Code) when string.IsNullOrWhiteSpace(Code) => "\"Code\" field cannot be empty.",
+                _ => string.Empty
+            };
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private readonly GoodsSection _parentSection;
 
         public bool CreateModifyView(CreateModifyViewMode mode)
         {
-            return new GoodDialog.GoodDialog() { Good = this, Mode = mode }.ShowDialog() == true;
+            switch (mode)
+            {
+                case CreateModifyViewMode.Create:
+                case CreateModifyViewMode.View:
+                    return new GoodDialog.GoodDialog() { Good = this, Mode = mode }.ShowDialog() == true;
+
+                case CreateModifyViewMode.Modify:
+                    // Doing all the changes in the temporary copy so that
+                    // the user can use "Cancel" button. If the user clicked "OK"
+                    // and all checks were passed, apply the changes.
+                    var mutableCopy = (Good)MemberwiseClone();
+                    bool dialogResult = new GoodDialog.GoodDialog() { Good = mutableCopy, Mode = mode }.ShowDialog() == true;
+                    if (dialogResult)
+                    {
+                        ObjectCopyProperties.Copy(mutableCopy, this);
+                        // All properties might have been changed.
+                        PropertyChanged?.Invoke(this, new(null));
+                    }
+                    return dialogResult;
+
+                default:
+                    throw new ArgumentException(null, nameof(mode));
+            }
         }
 
         public void Delete() => _parentSection.Goods.Remove(this);
