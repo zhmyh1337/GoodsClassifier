@@ -22,6 +22,8 @@ namespace GoodsClassifier.MainWindow
     /// </summary>
     partial class MainWindow : Window
     {
+        private static readonly Random _randomGenerator = new();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -158,6 +160,62 @@ namespace GoodsClassifier.MainWindow
                 catch (Exception)
                 {
                     MessageBox.Show("Failed to save CSV file.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void MenuItemGenerateRandomSections_Click(object sender, RoutedEventArgs e)
+        {
+            Dialog.Dialog dialog = new() { Caption = "Randomizer", Message = "Input the number of sections to be generated:" };
+            if (dialog.ShowDialog() == true)
+            {
+                if (!uint.TryParse(dialog.ResponseText, out var number))
+                {
+                    MessageBox.Show("Incorrect input (should be positive integer).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (number > 100 && MessageBox.Show("Are you sure? This may take a while.", "Confirmation",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+                {
+                    return;
+                }
+
+                for (int i = 0; i < number; i++)
+                {
+                    var allSections = ViewModel.TreeRoot.SectionsAllSubtree.ToArray();
+                    var chosenSection = allSections[_randomGenerator.Next(allSections.Length)];
+                    chosenSection.AddSubsection(RandomString.Generate(12, _randomGenerator));
+                }
+            }
+        }
+
+        private void MenuItemGenerateRandomGoods_Click(object sender, RoutedEventArgs e)
+        {
+            Dialog.Dialog dialog = new() { Caption = "Randomizer", Message = "Input the number of goods to be generated:" };
+            if (dialog.ShowDialog() == true)
+            {
+                if (!uint.TryParse(dialog.ResponseText, out var number))
+                {
+                    MessageBox.Show("Incorrect input (should be positive integer).", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                if (number > 100 && MessageBox.Show("Are you sure? This may take a while.", "Confirmation",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+                {
+                    return;
+                }
+
+                for (int i = 0; i < number; i++)
+                {
+                    var allSections = ViewModel.TreeRoot.SectionsAllSubtree.ToArray();
+                    var chosenSection = allSections[_randomGenerator.Next(allSections.Length)];
+                    var goodName = RandomString.Generate(12, _randomGenerator);
+                    var goodCode = RandomString.Generate(12, _randomGenerator);
+                    var goodPrice = (float)_randomGenerator.NextDouble() * 1000000;
+                    var goodAmount = (uint)_randomGenerator.Next(1000000);
+                    chosenSection.Goods.Add(new Good(chosenSection) { Name = goodName, Code = goodCode, Price = goodPrice, Amount = goodAmount });
                 }
             }
         }

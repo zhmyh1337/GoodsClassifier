@@ -33,6 +33,8 @@
             </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem Header="_Running low on..." ToolTip="CSV report" Click="MenuItemCsvRunningLowOn_Click"/>
+                <MenuItem Header="_Generate random sections" Click="MenuItemGenerateRandomSections_Click"/>
+                <MenuItem Header="G_enerate random goods" Click="MenuItemGenerateRandomGoods_Click"/>
             </MenuItem>
         </Menu>
 
