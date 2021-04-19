@@ -7,11 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="src\Windows\GoodDialog\default-image.jpg" />
+    <None Remove="src\Windows\GoodDialog\Безымянный.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Remove="src\App\App.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <ApplicationDefinition Include="src\App\App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="src\Windows\GoodDialog\default-image.jpg" />
   </ItemGroup>
 
 </Project>

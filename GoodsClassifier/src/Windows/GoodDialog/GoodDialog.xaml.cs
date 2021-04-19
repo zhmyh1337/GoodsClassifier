@@ -1,6 +1,7 @@
 ﻿using GoodsClassifier.Logic;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +36,11 @@ namespace GoodsClassifier.GoodDialog
         {
             get => ViewModel.Mode;
             init => ViewModel.Mode = value;
+        }
+
+        private void Image_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

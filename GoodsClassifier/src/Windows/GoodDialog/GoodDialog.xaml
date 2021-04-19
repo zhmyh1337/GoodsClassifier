@@ -4,14 +4,74 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GoodsClassifier.GoodDialog"
-        mc:Ignorable="d"
-        Title="{Binding Mode}" Height="450" Width="800">
+        mc:Ignorable="d" Height="450" Width="800">
+
+    <Window.Resources>
+        <local:ModeToControlIsEnabledConverter x:Key="ModeToControlIsEnabledConverter"/>
+        <local:ModeToTitleConverter x:Key="ModeToTitleConverter"/>
+        <local:ModeToTextBoxReadOnlyConverter x:Key="ModeToTextBoxReadOnlyConverter"/>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="IsReadOnly" Value="{Binding Mode, Converter={StaticResource ModeToTextBoxReadOnlyConverter}}"/>
+        </Style>
+        <Style TargetType="{x:Type Image}">
+            <Setter Property="IsEnabled" Value="{Binding Mode, Converter={StaticResource ModeToControlIsEnabledConverter}}"/>
+        </Style>
+    </Window.Resources>
+
+    <Window.Title>
+        <Binding Converter="{StaticResource ModeToTitleConverter}" Path="Mode"/>
+    </Window.Title>
 
     <Window.DataContext>
         <local:ViewModel x:Name="ViewModel"/>
     </Window.DataContext>
-    
-    <Grid>
+
+    <Grid Margin="3">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Margin="0 0 5 0" Grid.Row="0" Text="Name:"/>
+            <TextBox Margin="0 0 0 0" Grid.Row="0" Grid.Column="1" Text="{Binding Good.Name}"/>
+            <TextBlock Margin="0 5 5 0" Grid.Row="1" Text="Code:"/>
+            <TextBox Margin="0 5 0 0" Grid.Row="1" Grid.Column="1" Text="{Binding Good.Code}"/>
+            <TextBlock Margin="0 5 5 0" Grid.Row="2" Text="Price:"/>
+            <TextBox Margin="0 5 0 0" Grid.Row="2" Grid.Column="1" Text="{Binding Good.Price}"/>
+            <TextBlock Margin="0 5 5 0" Grid.Row="3" Text="Amount:"/>
+            <TextBox Margin="0 5 0 0" Grid.Row="3" Grid.Column="1" Text="{Binding Good.Amount}"/>
+        </Grid>
         
+        <Border Grid.Column="1" Margin="5" Width="200" Height="200" BorderBrush="Black" BorderThickness="2">
+            <Image PreviewMouseUp="Image_PreviewMouseUp" Source="/src/Windows/GoodDialog/default-image.jpg" Stretch="Uniform"/>
+        </Border>
+
+        <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
+            <Separator DockPanel.Dock="Top"/>
+            <TextBlock Margin="0 5 0 0" DockPanel.Dock="Top" Text="Description:" HorizontalAlignment="Center"/>
+            <TextBox Margin="0 5 0 0" DockPanel.Dock="Top" AcceptsReturn="True" TextWrapping="Wrap"/>
+        </DockPanel>
     </Grid>
 </Window>

@@ -17,7 +17,7 @@ namespace GoodsClassifier.Logic
         {
             for (int i = 0; i < 5; i++)
             {
-                Goods.Add(new(this) { Name = "name", VendorCode = "vendor-1" } );
+                Goods.Add(new(this) { Name = "name", Code = "vendor-1" } );
             }
         }
 

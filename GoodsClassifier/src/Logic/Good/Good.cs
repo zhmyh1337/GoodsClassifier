@@ -24,20 +24,20 @@ namespace GoodsClassifier.Logic
         [DataGridColumnAutogenerating(Name = "Name")]
         public string Name { get; set; }
 
-        [DataGridColumnAutogenerating(Name = "Vendor code")]
-        public string VendorCode { get; set; }
+        [DataGridColumnAutogenerating(Name = "Code")]
+        public string Code { get; set; }
 
         [DataGridColumnAutogenerating(Name = "Price")]
         public float Price { get; set; }
 
-        [DataGridColumnAutogenerating(Name = "Remaining amount")]
-        public uint RemainingAmount { get; set; }
+        [DataGridColumnAutogenerating(Name = "Amount")]
+        public uint Amount { get; set; }
 
         public string Description { get; set; }
 
         private readonly GoodsSection _parentSection;
 
-        public bool IsValid() => !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(VendorCode);
+        public bool IsValid() => !string.IsNullOrWhiteSpace(Name) && !string.IsNullOrWhiteSpace(Code);
 
         public bool CreateModifyView(CreateModifyViewMode mode)
         {

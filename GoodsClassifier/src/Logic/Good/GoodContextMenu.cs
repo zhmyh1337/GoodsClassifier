@@ -12,13 +12,13 @@ namespace GoodsClassifier.Logic
     {
         public GoodContextMenu(Good good)
         {
-            MenuItem viewGood = new() { Header = "View good" };
+            MenuItem viewGood = new() { Header = "View" };
             viewGood.Click += (_, _) => good.CreateModifyView(Good.CreateModifyViewMode.View);
 
-            MenuItem modifyGood = new() { Header = "Modify good" };
+            MenuItem modifyGood = new() { Header = "Modify" };
             modifyGood.Click += (_, _) => good.CreateModifyView(Good.CreateModifyViewMode.Modify);
 
-            MenuItem deleteGood = new() { Header = "Delete good" };
+            MenuItem deleteGood = new() { Header = "Delete" };
             deleteGood.Click += (_, _) => good.Delete();
 
             Control[] contextMenuItemsCollection = { viewGood, modifyGood, deleteGood };

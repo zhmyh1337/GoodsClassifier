@@ -13,8 +13,8 @@
         <local:ViewModel x:Name="ViewModel"/>
     </Window.DataContext>
     
-    <Grid>
-        <StackPanel Margin="5">
+    <Grid Margin="3">
+        <StackPanel>
             <TextBlock MaxWidth="200" Text="{Binding Message}" TextWrapping="Wrap"/>
             <TextBox Margin="0 5" MinWidth="150" Text="{Binding ResponseText}" Loaded="TextBox_Loaded" KeyDown="TextBox_KeyDown"/>
             <Button Width="50" Content="OK" Click="OkButton_Click"/>
