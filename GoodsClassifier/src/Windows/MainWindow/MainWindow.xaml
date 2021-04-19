@@ -24,6 +24,9 @@
                 <MenuItem Header="_Open" Click="MenuItemOpen_Click"/>
                 <MenuItem Header="_Save" Click="MenuItemSave_Click"/>
             </MenuItem>
+            <MenuItem Header="_Settings">
+                <MenuItem x:Name="SettingsShowTreePath" Header="_Show tree path" IsCheckable="True"/>
+            </MenuItem>
         </Menu>
 
         <Grid Margin="3" DockPanel.Dock="Top">
@@ -38,8 +41,14 @@
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=SettingsShowTreePath, Path=IsChecked}" Value="True">
+                                <Setter Property="ToolTip" Value="{Binding Path}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
                     </Style>
                 </TreeView.ItemContainerStyle>
+                
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Subsections}">
                         <TextBlock Text="{Binding Header}"/>

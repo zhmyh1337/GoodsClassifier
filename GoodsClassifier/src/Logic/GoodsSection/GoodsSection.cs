@@ -41,6 +41,21 @@ namespace GoodsClassifier.Logic
 
         public GoodsSection Parent { get; init; }
 
+        public string Path
+        {
+            get
+            {
+                var currentSection = this;
+                List<string> headersInversedOrder = new();
+                while (currentSection != null)
+                {
+                    headersInversedOrder.Add(currentSection.Header);
+                    currentSection = currentSection.Parent;
+                }
+                return string.Join("/", headersInversedOrder.Reverse<string>());
+            }
+        }
+
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
