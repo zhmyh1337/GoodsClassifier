@@ -26,6 +26,7 @@
             </MenuItem>
             <MenuItem Header="_Settings">
                 <MenuItem x:Name="SettingsShowTreePath" Header="_Show tree path" IsCheckable="True"/>
+                <MenuItem x:Name="SettingsShowGoodsInSubtree" Header="S_how goods in subtree" IsCheckable="True"/>
                 <Separator/>
                 <MenuItem Header="_Low amount" ToolTip='For the "Running low on..." tool'>
                     <TextBox Text="{Binding LowAmountSetting}" MinWidth="50"/>
@@ -66,10 +67,22 @@
             </TreeView>
             <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center"/>
             <DataGrid Grid.Column="2" IsReadOnly="True" SelectionUnit="FullRow" GridLinesVisibility="None"
-                  ItemsSource="{Binding ElementName=Tree, Path=SelectedItem.Goods}"
                   AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
                   PreviewMouseRightButtonUp="DataGrid_PreviewMouseRightButtonUp"
-                  MouseDoubleClick="DataGrid_MouseDoubleClick"/>
+                  MouseDoubleClick="DataGrid_MouseDoubleClick">
+                <DataGrid.Style>
+                    <Style TargetType="DataGrid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=SettingsShowGoodsInSubtree, Path=IsChecked}" Value="False">
+                                <Setter Property="ItemsSource" Value="{Binding ElementName=Tree, Path=SelectedItem.Goods}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=SettingsShowGoodsInSubtree, Path=IsChecked}" Value="True">
+                                <Setter Property="ItemsSource" Value="{Binding ElementName=Tree, Path=SelectedItem.GoodsAllSubtree}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Style>
+            </DataGrid>
         </Grid>
     </DockPanel>
 </Window>
