@@ -1,37 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml.Serialization;
 
 namespace GoodsClassifier.Logic
 {
-    class GoodsSection : TreeViewItem
+    [Serializable]
+    public class GoodsSection : INotifyPropertyChanged
     {
-        public ObservableCollection<Good> Goods { get; } = new();
-
-        public GoodsSection()
+        public string Header
         {
-            for (int i = 0; i < 5; i++)
+            get => _header;
+            set
             {
-                Goods.Add(new(this) { Name = "name", Code = "vendor-1" } );
+                _header = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Header)));
             }
         }
 
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set
+            {
+                _isExpanded = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExpanded)));
+            }
+        }
+
+        public ObservableCollection<GoodsSection> Subsections { get; } = new();
+
+        public ObservableCollection<Good> Goods { get; } = new();
+
+        public GoodsSection Parent { get; init; }
+
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NonSerialized]
+        private bool _isExpanded;
+
+        private string _header;
+
+        public bool ContainsSubsections() => Subsections.Any();
+
         public bool ContainsGoods() => Goods.Any();
 
-        public bool ContainsSections() => !Items.IsEmpty;
-
-        public void AddSection()
+        public void AddSubsection()
         {
             Dialog.Dialog dialog = new() { Message = "Enter a name for the new section:" };
             if (dialog.ShowDialog() == true)
             {
-                Items.Add(new GoodsSection() { Header = dialog.ResponseText });
+                Subsections.Add(new GoodsSection() { Parent = this, Header = dialog.ResponseText });
                 IsExpanded = true;
+            }
+        }
+
+        public void ExpandAll()
+        {
+            IsExpanded = true;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExpanded)));
+            foreach (var subsection in Subsections)
+            {
+                subsection.ExpandAll();
             }
         }
 
@@ -46,13 +84,13 @@ namespace GoodsClassifier.Logic
 
         public void Delete()
         {
-            if ((ContainsGoods() || ContainsSections()) &&
+            if ((ContainsGoods() || ContainsSubsections()) &&
                 MessageBox.Show("This section contains other sections or goods. " +
                 "Are you sure to delete it?", "Confirmation", MessageBoxButton.YesNo,
                 MessageBoxImage.Question) == MessageBoxResult.No)
                 return;
 
-            (Parent as GoodsSection).Items.Remove(this);
+            Parent.Subsections.Remove(this);
         }
 
         public void AddGood()
@@ -62,6 +100,12 @@ namespace GoodsClassifier.Logic
             {
                 Goods.Add(newGood);
             }
+        }
+
+        public void Clear()
+        {
+            Subsections.Clear();
+            Goods.Clear();
         }
     }
 }

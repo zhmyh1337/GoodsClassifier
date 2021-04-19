@@ -103,7 +103,7 @@
                 <Button Content="Cancel" Width="100" Margin="100 0 0 0" Click="ButtonCancel_Click"
                         Visibility="{Binding Mode, Converter={StaticResource ModeToCancelButtonVisibilityConverter}}"/>
             </DockPanel>
-            <TextBox Margin="0 5 0 0" DockPanel.Dock="Top" AcceptsReturn="True" TextWrapping="Wrap"/>
+            <TextBox Margin="0 5 0 0" DockPanel.Dock="Top" AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding Good.Description}"/>
         </DockPanel>
     </Grid>
 </Window>

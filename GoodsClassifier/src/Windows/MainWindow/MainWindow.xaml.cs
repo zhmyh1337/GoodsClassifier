@@ -1,21 +1,16 @@
 ﻿using GoodsClassifier.Logic;
 using GoodsClassifier.Utilities;
+using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace GoodsClassifier.MainWindow
 {
@@ -31,11 +26,10 @@ namespace GoodsClassifier.MainWindow
 
         private void Tree_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var section = VisualUpwardSearch<GoodsSection>(e.OriginalSource as DependencyObject);
-            if (section == null)
+            if (VisualUpwardSearch<TreeViewItem>(e.OriginalSource as DependencyObject)?.DataContext is not GoodsSection section)
                 return;
 
-            new GoodsSectionContextMenu(section, section == TreeRoot).Show();
+            new GoodsSectionContextMenu(section, section == ViewModel.TreeRoot).Show();
         }
 
         private static T VisualUpwardSearch<T>(DependencyObject source) where T : class
@@ -48,11 +42,11 @@ namespace GoodsClassifier.MainWindow
 
         private void Tree_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.OriginalSource is GoodsSection section)
+            if ((e.OriginalSource as TreeViewItem)?.DataContext is GoodsSection section)
             {
                 switch (e.Key)
                 {
-                    case Key.Delete when section != TreeRoot:
+                    case Key.Delete when section != ViewModel.TreeRoot:
                         section.Delete();
                         break;
                 }
@@ -86,6 +80,44 @@ namespace GoodsClassifier.MainWindow
                 MenuItem newGood = new() { Header = "New good" };
                 newGood.Click += (_, _) => section.AddGood();
                 _ = new ContextMenu() { ItemsSource = new[] { newGood }, IsOpen = true };
+            }
+        }
+
+        private void MenuItemNew_Click(object sender, RoutedEventArgs e) => ViewModel.TreeRoot.Clear();
+
+        private void MenuItemOpen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new() { Filter = "Goods classifier data (*.gcd)|*.gcd|All files (*.*)|*.*", FileName = "data" };
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    using FileStream fs = new(dialog.FileName, FileMode.OpenOrCreate);
+                    BinaryFormatter formatter = new();
+                    ViewModel.TreeRoot = (GoodsSection)formatter.Deserialize(fs);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Failed to load data from file.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void MenuItemSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dialog = new() { Filter = "Goods classifier data (*.gcd)|*.gcd|All files (*.*)|*.*", FileName = "data" };
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    using FileStream fs = new(dialog.FileName, FileMode.OpenOrCreate);
+                    BinaryFormatter formatter = new();
+                    formatter.Serialize(fs, ViewModel.TreeRoot);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Failed to save data to file.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }

@@ -8,31 +8,49 @@
         xmlns:Specialized="clr-namespace:System.Collections.Specialized;assembly=System.Collections.Specialized"
         mc:Ignorable="d"
         Title="Goods classifier" Height="450" Width="800">
-    <Grid Margin="3">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="100"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*" MinWidth="100"/>
-        </Grid.ColumnDefinitions>
+    
+    <Window.Resources>
+        <local:TreeRootToItemSourceConverter x:Key="TreeRootToItemSourceConverter"/>
+    </Window.Resources>
 
-        <TreeView x:Name="Tree" PreviewMouseRightButtonUp="Tree_MouseRightButtonUp" KeyDown="Tree_KeyDown">
-            <logic:GoodsSection x:Name="TreeRoot" Header="Root">
-                <logic:GoodsSection Header="1"/>
-                <logic:GoodsSection Header="2">
-                    <logic:GoodsSection Header="3"/>
-                    <logic:GoodsSection Header="4">
-                        <logic:GoodsSection Header="7"/>
-                    </logic:GoodsSection>
-                </logic:GoodsSection>
-                <logic:GoodsSection Header="5">
-                    <logic:GoodsSection Header="6"/>
-                </logic:GoodsSection>
-            </logic:GoodsSection>
-        </TreeView>
-        <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center"/>
-        <DataGrid Grid.Column="2" IsReadOnly="True" SelectionUnit="FullRow" GridLinesVisibility="None"
-                  ItemsSource="{Binding ElementName=Tree, Path=SelectedItem.(logic:GoodsSection.Goods)}"
+    <Window.DataContext>
+        <local:ViewModel x:Name="ViewModel"/>
+    </Window.DataContext>
+    
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" Click="MenuItemNew_Click"/>
+                <MenuItem Header="_Open" Click="MenuItemOpen_Click"/>
+                <MenuItem Header="_Save" Click="MenuItemSave_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid Margin="3" DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="100"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*" MinWidth="100"/>
+            </Grid.ColumnDefinitions>
+
+            <TreeView x:Name="Tree" PreviewMouseRightButtonUp="Tree_MouseRightButtonUp" KeyDown="Tree_KeyDown"
+                      ItemsSource="{Binding TreeRoot, Converter={StaticResource TreeRootToItemSourceConverter}}">
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Subsections}">
+                        <TextBlock Text="{Binding Header}"/>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+            <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center"/>
+            <DataGrid Grid.Column="2" IsReadOnly="True" SelectionUnit="FullRow" GridLinesVisibility="None"
+                  ItemsSource="{Binding ElementName=Tree, Path=SelectedItem.Goods}"
                   AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
                   PreviewMouseRightButtonUp="DataGrid_PreviewMouseRightButtonUp"/>
-    </Grid>
+        </Grid>
+    </DockPanel>
 </Window>

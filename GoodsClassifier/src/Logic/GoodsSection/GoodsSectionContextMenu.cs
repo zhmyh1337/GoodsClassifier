@@ -13,7 +13,7 @@ namespace GoodsClassifier.Logic
         public GoodsSectionContextMenu(GoodsSection section, bool isRootItem)
         {
             MenuItem newSection = new() { Header = "New section" };
-            newSection.Click += (_, _) => section.AddSection();
+            newSection.Click += (_, _) => section.AddSubsection();
 
             MenuItem renameSection = new() { Header = "Rename section", IsEnabled = !isRootItem };
             renameSection.Click += (_, _) => section.Rename();
@@ -25,7 +25,7 @@ namespace GoodsClassifier.Logic
             newGood.Click += (_, _) => section.AddGood();
 
             MenuItem expandAll = new() { Header = "Expand all" };
-            expandAll.Click += (_, _) => section.ExpandSubtree();
+            expandAll.Click += (_, _) => section.ExpandAll();
 
             Control[] contextMenuItemsCollection = { newSection, renameSection, deleteSection, new Separator(), newGood, new Separator(), expandAll };
             ItemsSource = contextMenuItemsCollection;

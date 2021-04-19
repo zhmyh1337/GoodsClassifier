@@ -10,7 +10,8 @@ using System.Windows.Data;
 
 namespace GoodsClassifier.Logic
 {
-    class Good : INotifyPropertyChanged, IDataErrorInfo
+    [Serializable]
+    public class Good : INotifyPropertyChanged, IDataErrorInfo
     {
         public enum CreateModifyViewMode
         {
@@ -47,6 +48,7 @@ namespace GoodsClassifier.Logic
             };
         }
 
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         private readonly GoodsSection _parentSection;
