@@ -21,7 +21,7 @@ namespace GoodsClassifier.Logic
             View
         }
 
-        public Good(GoodsSection parentSection) => _parentSection = parentSection;
+        public Good(GoodsSection parentSection) => ParentSection = parentSection;
 
         [DataGridColumnAutogenerating(Name = "Name")]
         public string Name { get; set; }
@@ -47,6 +47,8 @@ namespace GoodsClassifier.Logic
             }
         }
 
+        public GoodsSection ParentSection { get; }
+
         public string Error => string.Empty;
 
         public string this[string columnName]
@@ -61,8 +63,6 @@ namespace GoodsClassifier.Logic
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private readonly GoodsSection _parentSection;
 
         private string _imageBase64;
 
@@ -93,6 +93,6 @@ namespace GoodsClassifier.Logic
             }
         }
 
-        public void Delete() => _parentSection.Goods.Remove(this);
+        public void Delete() => ParentSection.Goods.Remove(this);
     }
 }

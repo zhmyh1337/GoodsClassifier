@@ -1,8 +1,11 @@
-﻿using GoodsClassifier.Logic;
+﻿using CsvHelper;
+using GoodsClassifier.Logic;
 using GoodsClassifier.Utilities;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -83,6 +86,15 @@ namespace GoodsClassifier.MainWindow
             }
         }
 
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // Click on a row.
+            if (VisualUpwardSearch<DataGridRow>(e.OriginalSource as DependencyObject)?.DataContext is Good good)
+            {
+                good.CreateModifyView(Good.CreateModifyViewMode.View);
+            }
+        }
+
         private void MenuItemNew_Click(object sender, RoutedEventArgs e) => ViewModel.TreeRoot.Clear();
 
         private void MenuItemOpen_Click(object sender, RoutedEventArgs e)
@@ -117,6 +129,35 @@ namespace GoodsClassifier.MainWindow
                 catch (Exception)
                 {
                     MessageBox.Show("Failed to save data to file.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void MenuItemCsvRunningLowOn_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dialog = new() { Filter = "Csv files (*.csv)|*.csv|All files (*.*)|*.*", FileName = "data" };
+
+            if (dialog.ShowDialog() == true)
+            {
+                var records = from good in ViewModel.TreeRoot.GoodsAllSubtree
+                              where good.Amount < ViewModel.LowAmountSetting
+                              select new
+                              {
+                                  good.ParentSection.Path,
+                                  good.Code,
+                                  good.Name,
+                                  good.Amount
+                              };
+
+                try
+                {
+                    using StreamWriter writer = new(dialog.FileName);
+                    using CsvWriter csv = new(writer, CultureInfo.InvariantCulture);
+                    csv.WriteRecords(records);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Failed to save CSV file.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }

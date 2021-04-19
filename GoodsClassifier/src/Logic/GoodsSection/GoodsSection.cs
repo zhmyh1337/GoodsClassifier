@@ -56,6 +56,14 @@ namespace GoodsClassifier.Logic
             }
         }
 
+        public IEnumerable<GoodsSection> SectionsAllSubtree
+        {
+            // 1-line DFS :)
+            get => new[] { this }.Concat(Subsections.SelectMany(x => x.SectionsAllSubtree));
+        }
+
+        public IEnumerable<Good> GoodsAllSubtree => SectionsAllSubtree.SelectMany(x => x.Goods);
+
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -75,16 +83,6 @@ namespace GoodsClassifier.Logic
             {
                 Subsections.Add(new GoodsSection() { Parent = this, Header = dialog.ResponseText });
                 IsExpanded = true;
-            }
-        }
-
-        public void ExpandAll()
-        {
-            IsExpanded = true;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExpanded)));
-            foreach (var subsection in Subsections)
-            {
-                subsection.ExpandAll();
             }
         }
 

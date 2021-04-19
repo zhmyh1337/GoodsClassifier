@@ -26,6 +26,13 @@
             </MenuItem>
             <MenuItem Header="_Settings">
                 <MenuItem x:Name="SettingsShowTreePath" Header="_Show tree path" IsCheckable="True"/>
+                <Separator/>
+                <MenuItem Header="_Low amount" ToolTip='For the "Running low on..." tool'>
+                    <TextBox Text="{Binding LowAmountSetting}" MinWidth="50"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="_Running low on..." ToolTip="CSV report" Click="MenuItemCsvRunningLowOn_Click"/>
             </MenuItem>
         </Menu>
 
@@ -59,7 +66,8 @@
             <DataGrid Grid.Column="2" IsReadOnly="True" SelectionUnit="FullRow" GridLinesVisibility="None"
                   ItemsSource="{Binding ElementName=Tree, Path=SelectedItem.Goods}"
                   AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
-                  PreviewMouseRightButtonUp="DataGrid_PreviewMouseRightButtonUp"/>
+                  PreviewMouseRightButtonUp="DataGrid_PreviewMouseRightButtonUp"
+                  MouseDoubleClick="DataGrid_MouseDoubleClick"/>
         </Grid>
     </DockPanel>
 </Window>

@@ -24,10 +24,7 @@ namespace GoodsClassifier.Logic
             MenuItem newGood = new() { Header = "New good" };
             newGood.Click += (_, _) => section.AddGood();
 
-            MenuItem expandAll = new() { Header = "Expand all" };
-            expandAll.Click += (_, _) => section.ExpandAll();
-
-            Control[] contextMenuItemsCollection = { newSection, renameSection, deleteSection, new Separator(), newGood, new Separator(), expandAll };
+            Control[] contextMenuItemsCollection = { newSection, renameSection, deleteSection, new Separator(), newGood };
             ItemsSource = contextMenuItemsCollection;
         }
 

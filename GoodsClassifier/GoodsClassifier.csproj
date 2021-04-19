@@ -27,4 +27,8 @@
     <Resource Include="src\Windows\GoodDialog\default-image.jpg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="26.1.0" />
+  </ItemGroup>
+
 </Project>
