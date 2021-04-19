@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media.Imaging;
 
 namespace GoodsClassifier.Logic
 {
@@ -36,6 +37,16 @@ namespace GoodsClassifier.Logic
 
         public string Description { get; set; }
 
+        public string ImageBase64
+        {
+            get => _imageBase64;
+            set
+            {
+                _imageBase64 = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImageBase64)));
+            }
+        }
+
         public string Error => string.Empty;
 
         public string this[string columnName]
@@ -52,6 +63,8 @@ namespace GoodsClassifier.Logic
         public event PropertyChangedEventHandler PropertyChanged;
 
         private readonly GoodsSection _parentSection;
+
+        private string _imageBase64;
 
         public bool CreateModifyView(CreateModifyViewMode mode)
         {

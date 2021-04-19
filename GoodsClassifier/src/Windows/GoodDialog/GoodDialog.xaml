@@ -7,42 +7,44 @@
         mc:Ignorable="d" Height="450" Width="800">
 
     <Window.Resources>
+        <local:Base64ImageSourceConverter x:Key="Base64ImageSourceConverter"/>
         <local:ModeToControlIsEnabledConverter x:Key="ModeToControlIsEnabledConverter"/>
         <local:ModeToTitleConverter x:Key="ModeToTitleConverter"/>
         <local:ModeToTextBoxReadOnlyConverter x:Key="ModeToTextBoxReadOnlyConverter"/>
         <local:ModeToCancelButtonVisibilityConverter x:Key="ModeToCancelButtonVisibilityConverter"/>
-        
-        <Style TargetType="Button">
+        <BitmapImage x:Key="DefaultImage" UriSource="/src/Windows/GoodDialog/default-image.jpg"/>
+
+        <Style TargetType="{x:Type Button}">
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
-        
-        <Style TargetType="TextBlock">
+
+        <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
 
-        <Style x:Key="TextBoxNoErrorBackground" TargetType="TextBox">
+        <Style x:Key="TextBoxNoErrorBackground" TargetType="{x:Type TextBox}">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="IsReadOnly" Value="{Binding Mode, Converter={StaticResource ModeToTextBoxReadOnlyConverter}}"/>
             <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
-                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                    <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="TextBoxWithErrorBackground" TargetType="TextBox" BasedOn="{StaticResource TextBoxNoErrorBackground}">
+        <Style x:Key="TextBoxWithErrorBackground" TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxNoErrorBackground}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="Background" Value="Red"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxNoErrorBackground}"/>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxNoErrorBackground}"/>
 
-        <Style TargetType="Image">
+        <Style TargetType="{x:Type Image}">
             <Setter Property="IsEnabled" Value="{Binding Mode, Converter={StaticResource ModeToControlIsEnabledConverter}}"/>
         </Style>
     </Window.Resources>
@@ -92,7 +94,9 @@
         </Grid>
         
         <Border Grid.Column="1" Margin="5 0 2 2" Width="200" Height="200" BorderBrush="Black" BorderThickness="2">
-            <Image PreviewMouseUp="Image_PreviewMouseUp" Source="/src/Windows/GoodDialog/default-image.jpg" Stretch="Uniform"/>
+            <Image PreviewMouseUp="Image_PreviewMouseUp"
+                   Source="{Binding Good.ImageBase64, Converter={StaticResource Base64ImageSourceConverter}, 
+                   ConverterParameter={StaticResource DefaultImage}}" Stretch="Uniform"/>
         </Border>
 
         <DockPanel Grid.Row="1" Grid.ColumnSpan="2">

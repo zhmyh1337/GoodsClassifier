@@ -1,7 +1,9 @@
 ﻿using GoodsClassifier.Logic;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +42,27 @@ namespace GoodsClassifier.GoodDialog
 
         private void Image_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-
+            OpenFileDialog dialog = new()
+            {
+                Filter = "PNG files (*.png)|*.png|JPG files (*.jpg)|*.jpg|JPEG files (*.jpeg)|*.jpeg|GIF files (*.gif)|*.gif|All files (*.*)|*.*"
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                try
+                {
+                    BitmapImage bitmapImage = new(new Uri(dialog.FileName));
+                    PngBitmapEncoder encoder = new();
+                    var frame = BitmapFrame.Create(bitmapImage);
+                    encoder.Frames.Add(frame);
+                    using MemoryStream stream = new();
+                    encoder.Save(stream);
+                    Good.ImageBase64 = Convert.ToBase64String(stream.ToArray());
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("An error occurred loading the image.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
